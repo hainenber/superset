@@ -19,10 +19,8 @@ from typing import Any, Optional
 from unittest.mock import MagicMock
 
 import pytest
-from sqlalchemy import column
 
 from tests.unit_tests.db_engine_specs.utils import assert_convert_dttm
-from tests.unit_tests.fixtures.common import dttm
 
 
 @pytest.mark.parametrize(

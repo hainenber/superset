@@ -18,7 +18,7 @@
 from typing import Any
 
 from marshmallow import Schema
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session  # noqa: F401
 from sqlalchemy.sql import select
 
 from superset import db
@@ -43,7 +43,6 @@ from superset.models.dashboard import Dashboard, dashboard_slices
 
 
 class ImportDashboardsCommand(ImportModelsCommand):
-
     """Import dashboards"""
 
     dao = DashboardDAO

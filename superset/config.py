@@ -20,6 +20,7 @@ All configuration in this file can be overridden by providing a superset_config
 in your PYTHONPATH as there is a ``from superset_config import *``
 at the end of this file.
 """
+
 # mypy: ignore-errors
 # pylint: disable=too-many-lines
 from __future__ import annotations
@@ -558,9 +559,9 @@ IS_FEATURE_ENABLED_FUNC: Callable[[str, bool | None], bool] | None = None
 #
 # Takes as a parameter the common bootstrap payload before transformations.
 # Returns a dict containing data that should be added or overridden to the payload.
-COMMON_BOOTSTRAP_OVERRIDES_FUNC: Callable[
-    [dict[str, Any]], dict[str, Any]
-] = lambda data: {}  # default: empty dict
+COMMON_BOOTSTRAP_OVERRIDES_FUNC: Callable[[dict[str, Any]], dict[str, Any]] = (  # noqa: E731
+    lambda data: {}
+)  # noqa: E731  # noqa: E731  # noqa: E731  # default: empty dict
 
 # EXTRA_CATEGORICAL_COLOR_SCHEMES is used for adding custom categorical color schemes
 # example code for "My custom warm to hot" color scheme
@@ -635,8 +636,8 @@ THUMBNAIL_EXECUTE_AS = [ExecutorType.CURRENT_USER, ExecutorType.SELENIUM]
 # `THUMBNAIL_EXECUTE_AS`; the executor is only equal to the currently logged in
 # user if the executor type is equal to `ExecutorType.CURRENT_USER`)
 # and return the final digest string:
-THUMBNAIL_DASHBOARD_DIGEST_FUNC: None | (
-    Callable[[Dashboard, ExecutorType, str], str]
+THUMBNAIL_DASHBOARD_DIGEST_FUNC: (
+    None | (Callable[[Dashboard, ExecutorType, str], str])
 ) = None
 THUMBNAIL_CHART_DIGEST_FUNC: Callable[[Slice, ExecutorType, str], str] | None = None
 
@@ -1030,8 +1031,8 @@ SQLLAB_CTAS_NO_LIMIT = False
 #         else:
 #             return f'tmp_{schema}'
 # Function accepts database object, user object, schema name and sql that will be run.
-SQLLAB_CTAS_SCHEMA_NAME_FUNC: None | (
-    Callable[[Database, models.User, str, str], str]
+SQLLAB_CTAS_SCHEMA_NAME_FUNC: (
+    None | (Callable[[Database, models.User, str, str], str])
 ) = None
 
 # If enabled, it can be used to store the results of long-running queries
@@ -1075,10 +1076,10 @@ UPLOADED_CSV_HIVE_NAMESPACE: str | None = None
 # db configuration and a result of this function.
 
 # mypy doesn't catch that if case ensures list content being always str
-ALLOWED_USER_CSV_SCHEMA_FUNC: Callable[[Database, models.User], list[str]] = (
-    lambda database, user: [UPLOADED_CSV_HIVE_NAMESPACE]
-    if UPLOADED_CSV_HIVE_NAMESPACE
-    else []
+ALLOWED_USER_CSV_SCHEMA_FUNC: Callable[[Database, models.User], list[str]] = (  # noqa: E731
+    lambda database, user: (  # noqa: E731
+        [UPLOADED_CSV_HIVE_NAMESPACE] if UPLOADED_CSV_HIVE_NAMESPACE else []
+    )
 )
 
 # Values that should be treated as nulls for the csv uploads.
@@ -1165,7 +1166,7 @@ BLUEPRINTS: list[Blueprint] = []
 #       lambda url, query: url if is_fresh(query) else None
 #   )
 # pylint: disable-next=unnecessary-lambda-assignment
-TRACKING_URL_TRANSFORMER = lambda url: url
+TRACKING_URL_TRANSFORMER = lambda url: url  # noqa: E731
 
 
 # customize the polling time of each engine
@@ -1567,7 +1568,7 @@ SSL_CERT_PATH: str | None = None
 # conventions and such. You can find examples in the tests.
 
 # pylint: disable-next=unnecessary-lambda-assignment
-SQLA_TABLE_MUTATOR = lambda table: table
+SQLA_TABLE_MUTATOR = lambda table: table  # noqa: E731
 
 
 # Global async query config options.
@@ -1588,9 +1589,9 @@ GLOBAL_ASYNC_QUERIES_REDIS_STREAM_LIMIT_FIREHOSE = 1000000
 GLOBAL_ASYNC_QUERIES_REGISTER_REQUEST_HANDLERS = True
 GLOBAL_ASYNC_QUERIES_JWT_COOKIE_NAME = "async-token"
 GLOBAL_ASYNC_QUERIES_JWT_COOKIE_SECURE = False
-GLOBAL_ASYNC_QUERIES_JWT_COOKIE_SAMESITE: None | (
-    Literal["None", "Lax", "Strict"]
-) = None
+GLOBAL_ASYNC_QUERIES_JWT_COOKIE_SAMESITE: None | (Literal["None", "Lax", "Strict"]) = (
+    None
+)
 GLOBAL_ASYNC_QUERIES_JWT_COOKIE_DOMAIN = None
 GLOBAL_ASYNC_QUERIES_JWT_SECRET = "test-secret-change-me"
 GLOBAL_ASYNC_QUERIES_TRANSPORT: Literal["polling", "ws"] = "polling"
@@ -1652,9 +1653,9 @@ ADVANCED_DATA_TYPES: dict[str, AdvancedDataType] = {
 #     "Xyz",
 #     [{"col": 'created_by', "opr": 'rel_o_m', "value": 10}],
 # )
-WELCOME_PAGE_LAST_TAB: (
-    Literal["examples", "all"] | tuple[str, list[dict[str, Any]]]
-) = "all"
+WELCOME_PAGE_LAST_TAB: Literal["examples", "all"] | tuple[str, list[dict[str, Any]]] = (
+    "all"
+)
 
 # Max allowed size for a zipped file
 ZIPPED_FILE_MAX_SIZE = 100 * 1024 * 1024  # 100MB

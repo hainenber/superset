@@ -191,6 +191,7 @@ development = [
     "pytest-cov",
     "pytest-mock",
     "python-ldap>=3.4.4",
+    "ruff",
     "sqloxide",
     "statsd",
     "tox",

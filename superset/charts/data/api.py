@@ -432,11 +432,13 @@ class ChartDataRestApi(ChartRestApi):
     ) -> dict[str, Any]:
         return {
             "dashboard_id": form_data.get("form_data", {}).get("dashboardId"),
-            "dataset_id": form_data.get("datasource", {}).get("id")
-            if isinstance(form_data.get("datasource"), dict)
-            and form_data.get("datasource", {}).get("type")
-            == DatasourceType.TABLE.value
-            else None,
+            "dataset_id": (
+                form_data.get("datasource", {}).get("id")
+                if isinstance(form_data.get("datasource"), dict)
+                and form_data.get("datasource", {}).get("type")
+                == DatasourceType.TABLE.value
+                else None
+            ),
             "slice_id": form_data.get("form_data", {}).get("slice_id"),
         }
 

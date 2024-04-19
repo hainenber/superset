@@ -24,11 +24,6 @@ import pytest
 from superset import db
 from superset.daos.dashboard import EmbeddedDashboardDAO
 from superset.models.dashboard import Dashboard
-from tests.integration_tests.fixtures.birth_names_dashboard import (
-    load_birth_names_dashboard_with_slices,
-    load_birth_names_data,
-)
-from tests.integration_tests.fixtures.client import client
 
 if TYPE_CHECKING:
     from typing import Any
@@ -67,6 +62,6 @@ def test_get_embedded_dashboard_referrer_not_allowed(client: FlaskClient[Any]):
     EMBEDDED_SUPERSET=True,
 )
 def test_get_embedded_dashboard_non_found(client: FlaskClient[Any]):
-    uri = f"embedded/bad-uuid"
+    uri = "embedded/bad-uuid"
     response = client.get(uri)
     assert response.status_code == 404

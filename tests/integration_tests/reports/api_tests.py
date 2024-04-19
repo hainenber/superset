@@ -16,6 +16,7 @@
 # under the License.
 # isort:skip_file
 """Unit tests for Superset"""
+
 from datetime import datetime
 import json
 
@@ -43,10 +44,6 @@ from superset.utils.database import get_example_database
 from tests.integration_tests.base_tests import SupersetTestCase
 from tests.integration_tests.conftest import with_feature_flags
 from tests.integration_tests.constants import ADMIN_USERNAME, GAMMA_USERNAME
-from tests.integration_tests.fixtures.birth_names_dashboard import (
-    load_birth_names_dashboard_with_slices,
-    load_birth_names_data,
-)
 from tests.integration_tests.reports.utils import insert_report_schedule
 
 REPORTS_COUNT = 10
@@ -311,7 +308,7 @@ class TestReportSchedulesApi(SupersetTestCase):
         ReportSchedule API: Test info
         """
         self.login(ADMIN_USERNAME)
-        uri = f"api/v1/report/_info"
+        uri = "api/v1/report/_info"
         rv = self.get_assert_metric(uri, "info")
         assert rv.status_code == 200
 
@@ -346,7 +343,7 @@ class TestReportSchedulesApi(SupersetTestCase):
         ReportSchedule Api: Test get list report schedules
         """
         self.login(ADMIN_USERNAME)
-        uri = f"api/v1/report/"
+        uri = "api/v1/report/"
         rv = self.get_assert_metric(uri, "get_list")
 
         expected_fields = [
@@ -425,7 +422,7 @@ class TestReportSchedulesApi(SupersetTestCase):
         ReportSchedule Api: Test get list report schedules for different roles
         """
         self.login(username)
-        uri = f"api/v1/report/"
+        uri = "api/v1/report/"
         rv = self.get_assert_metric(uri, "get_list")
 
         assert rv.status_code == 200
@@ -437,7 +434,7 @@ class TestReportSchedulesApi(SupersetTestCase):
         ReportSchedule Api: Test get list report schedules for regular gamma user
         """
         self.login(GAMMA_USERNAME)
-        uri = f"api/v1/report/"
+        uri = "api/v1/report/"
         rv = self.client.get(uri)
 
         assert rv.status_code == 403
@@ -915,9 +912,9 @@ class TestReportSchedulesApi(SupersetTestCase):
         ReportSchedule Api: Test create report schedule with unsaved chart
         """
         self.login(ADMIN_USERNAME)
-        chart = db.session.query(Slice).first()
-        dashboard = db.session.query(Dashboard).first()
-        example_db = get_example_database()
+        chart = db.session.query(Slice).first()  # noqa: F841
+        dashboard = db.session.query(Dashboard).first()  # noqa: F841
+        example_db = get_example_database()  # noqa: F841
 
         report_schedule_data = {
             "type": ReportScheduleType.REPORT,
@@ -944,9 +941,9 @@ class TestReportSchedulesApi(SupersetTestCase):
         ReportSchedule Api: Test create report schedule with no dashboard id
         """
         self.login(ADMIN_USERNAME)
-        chart = db.session.query(Slice).first()
-        dashboard = db.session.query(Dashboard).first()
-        example_db = get_example_database()
+        chart = db.session.query(Slice).first()  # noqa: F841
+        dashboard = db.session.query(Dashboard).first()  # noqa: F841
+        example_db = get_example_database()  # noqa: F841
         report_schedule_data = {
             "type": ReportScheduleType.REPORT,
             "name": "name3",
@@ -972,8 +969,8 @@ class TestReportSchedulesApi(SupersetTestCase):
         """
         self.login(ADMIN_USERNAME)
         chart = db.session.query(Slice).first()
-        dashboard = db.session.query(Dashboard).first()
-        example_db = get_example_database()
+        dashboard = db.session.query(Dashboard).first()  # noqa: F841
+        example_db = get_example_database()  # noqa: F841
         report_schedule_data = {
             "type": ReportScheduleType.REPORT,
             "name": "name4",
@@ -1029,9 +1026,9 @@ class TestReportSchedulesApi(SupersetTestCase):
         ReportSchedule Api: Test create multiple reports with the same creation method
         """
         self.login(ADMIN_USERNAME)
-        chart = db.session.query(Slice).first()
+        chart = db.session.query(Slice).first()  # noqa: F841
         dashboard = db.session.query(Dashboard).first()
-        example_db = get_example_database()
+        example_db = get_example_database()  # noqa: F841
         report_schedule_data = {
             "type": ReportScheduleType.REPORT,
             "name": "name4",
@@ -1475,7 +1472,7 @@ class TestReportSchedulesApi(SupersetTestCase):
             "description": "Updated description",
         }
         uri = f"api/v1/report/{existing_report.id}"
-        rv = self.put_assert_metric(uri, report_schedule_data, "put")
+        rv = self.put_assert_metric(uri, report_schedule_data, "put")  # noqa: F841
         updated_report = (
             db.session.query(ReportSchedule)
             .filter(ReportSchedule.name == "name1")
@@ -1498,7 +1495,7 @@ class TestReportSchedulesApi(SupersetTestCase):
             "owners": [],
         }
         uri = f"api/v1/report/{existing_report.id}"
-        rv = self.put_assert_metric(uri, report_schedule_data, "put")
+        rv = self.put_assert_metric(uri, report_schedule_data, "put")  # noqa: F841
         updated_report = (
             db.session.query(ReportSchedule)
             .filter(ReportSchedule.name == "name1")
@@ -1538,7 +1535,7 @@ class TestReportSchedulesApi(SupersetTestCase):
             "owners": [gamma.id],
         }
         uri = f"api/v1/report/{updated_report.id}"
-        rv = self.put_assert_metric(uri, report_update_data, "put")
+        rv = self.put_assert_metric(uri, report_update_data, "put")  # noqa: F841
         updated_report = (
             db.session.query(ReportSchedule)
             .filter(ReportSchedule.name == "name1")

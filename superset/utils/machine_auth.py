@@ -43,10 +43,10 @@ if TYPE_CHECKING:
 class MachineAuthProvider:
     def __init__(
         self,
-        auth_webdriver_func_override: Callable[
-            [WebDriver | BrowserContext, User], WebDriver | BrowserContext
-        ]
-        | None = None,
+        auth_webdriver_func_override: (
+            Callable[[WebDriver | BrowserContext, User], WebDriver | BrowserContext]
+            | None
+        ) = None,
     ):
         # This is here in order to allow for the authenticate_webdriver
         # or authenticate_browser_context (if PLAYWRIGHT_REPORTS_AND_THUMBNAILS is

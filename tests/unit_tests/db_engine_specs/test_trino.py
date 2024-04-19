@@ -44,7 +44,6 @@ from tests.unit_tests.db_engine_specs.utils import (
     assert_column_spec,
     assert_convert_dttm,
 )
-from tests.unit_tests.fixtures.common import dttm
 
 
 def _assert_columns_equal(actual_cols, expected_cols) -> None:

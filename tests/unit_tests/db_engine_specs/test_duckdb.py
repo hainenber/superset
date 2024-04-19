@@ -24,7 +24,6 @@ from pytest_mock import MockerFixture
 
 from superset.config import VERSION_STRING
 from tests.unit_tests.db_engine_specs.utils import assert_convert_dttm
-from tests.unit_tests.fixtures.common import dttm
 
 
 @pytest.mark.parametrize(

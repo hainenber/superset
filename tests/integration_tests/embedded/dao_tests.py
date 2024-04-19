@@ -17,15 +17,10 @@
 # isort:skip_file
 import pytest
 
-import tests.integration_tests.test_app  # pylint: disable=unused-import
 from superset import db
 from superset.daos.dashboard import EmbeddedDashboardDAO
 from superset.models.dashboard import Dashboard
 from tests.integration_tests.base_tests import SupersetTestCase
-from tests.integration_tests.fixtures.world_bank_dashboard import (
-    load_world_bank_dashboard_with_slices,
-    load_world_bank_data,
-)
 
 
 class TestEmbeddedDashboardDAO(SupersetTestCase):

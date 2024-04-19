@@ -18,7 +18,6 @@ import io
 
 import pandas as pd
 import pyarrow as pa
-import pytest
 
 from superset.utils import csv
 

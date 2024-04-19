@@ -22,17 +22,12 @@ from unittest import mock
 from zipfile import is_zipfile, ZipFile
 
 import pytest
-import yaml
 from freezegun import freeze_time
 
 import superset.cli.importexport
 import superset.cli.thumbnails
 from superset import app, db
 from superset.models.dashboard import Dashboard
-from tests.integration_tests.fixtures.birth_names_dashboard import (
-    load_birth_names_dashboard_with_slices,
-    load_birth_names_data,
-)
 
 logger = logging.getLogger(__name__)
 

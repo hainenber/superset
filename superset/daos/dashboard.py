@@ -223,9 +223,11 @@ class DashboardDAO(BaseDAO[Dashboard]):
                     slc_id_dict = {sid: sid for sid in slice_ids}
                 new_filter_scopes = copy_filter_scopes(
                     old_to_new_slc_id_dict=slc_id_dict,
-                    old_filter_scopes=json.loads(data["filter_scopes"] or "{}")
-                    if isinstance(data["filter_scopes"], str)
-                    else data["filter_scopes"],
+                    old_filter_scopes=(
+                        json.loads(data["filter_scopes"] or "{}")
+                        if isinstance(data["filter_scopes"], str)
+                        else data["filter_scopes"]
+                    ),
                 )
 
             default_filters_data = json.loads(data.get("default_filters", "{}"))

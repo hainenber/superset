@@ -35,14 +35,6 @@ from superset.utils.database import get_example_database
 from tests.integration_tests.db_engine_specs.base_tests import TestDbEngineSpec
 from tests.integration_tests.test_app import app
 
-from ..fixtures.birth_names_dashboard import (
-    load_birth_names_dashboard_with_slices,
-    load_birth_names_data,
-)
-from ..fixtures.energy_dashboard import (
-    load_energy_table_data,
-    load_energy_table_with_slice,
-)
 from ..fixtures.pyodbcRow import Row
 
 
@@ -333,8 +325,8 @@ def test_time_grain_denylist():
 
     with app.app_context():
         time_grain_functions = SqliteEngineSpec.get_time_grain_expressions()
-        assert not "PT1M" in time_grain_functions
-        assert not "SQLITE_NONEXISTENT_GRAIN" in time_grain_functions
+        assert "PT1M" not in time_grain_functions
+        assert "SQLITE_NONEXISTENT_GRAIN" not in time_grain_functions
 
     app.config = config
 

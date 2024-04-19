@@ -25,11 +25,7 @@ from flask.ctx import AppContext
 from flask_appbuilder.security.sqla.models import User
 
 from superset.extensions import db
-from tests.integration_tests.key_value.commands.fixtures import (
-    admin,
-    JSON_VALUE,
-    RESOURCE,
-)
+from tests.integration_tests.key_value.commands.fixtures import JSON_VALUE, RESOURCE
 
 if TYPE_CHECKING:
     from superset.key_value.models import KeyValueEntry

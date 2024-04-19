@@ -14,15 +14,13 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-from . import (
-    alerts,
-    api,
-    base,
-    core,
-    css_templates,
-    dynamic_plugins,
-    health,
-    sql_lab,
-    tags,
-)
-from .log import api as log_api, views
+from . import alerts  # noqa: F401
+from . import api  # noqa: F401
+from . import base  # noqa: F401
+from . import core  # noqa: F401
+from . import css_templates  # noqa: F401
+from . import dynamic_plugins  # noqa: F401
+from . import health  # noqa: F401
+from . import sql_lab  # noqa: F401
+from . import tags  # noqa: F401
+from .log import api as log_api, views  # noqa: F401

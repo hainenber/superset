@@ -84,9 +84,9 @@ class UIManifestProcessor:
         return {
             "js_manifest": lambda bundle: get_files(bundle, "js"),
             "css_manifest": lambda bundle: get_files(bundle, "css"),
-            "assets_prefix": self.app.config["STATIC_ASSETS_PREFIX"]
-            if self.app
-            else "",
+            "assets_prefix": (
+                self.app.config["STATIC_ASSETS_PREFIX"] if self.app else ""
+            ),
         }
 
     def parse_manifest_json(self) -> None:

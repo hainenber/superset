@@ -157,8 +157,10 @@ class GSheetsEngineSpec(ShillelaghEngineSpec):
     def build_sqlalchemy_uri(
         cls,
         _: GSheetsParametersType,
-        encrypted_extra: None  # pylint: disable=unused-argument
-        | (dict[str, Any]) = None,
+        encrypted_extra: None
+        | (  # pylint: disable=unused-argument
+            dict[str, Any]
+        ) = None,
     ) -> str:
         return "gsheets://"
 

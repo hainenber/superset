@@ -196,9 +196,11 @@ class AsyncQueryManager:
 
         job_metadata = self.init_job(channel_id, user_id)
         self._load_explore_json_into_cache_job.delay(
-            {**job_metadata, "guest_token": guest_user.guest_token}
-            if (guest_user := security_manager.get_current_guest_user_if_guest())
-            else job_metadata,
+            (
+                {**job_metadata, "guest_token": guest_user.guest_token}
+                if (guest_user := security_manager.get_current_guest_user_if_guest())
+                else job_metadata
+            ),
             form_data,
             response_type,
             force,
@@ -220,9 +222,11 @@ class AsyncQueryManager:
         # so that it can be looked up consistently
         job_metadata = self.init_job(channel_id, user_id)
         self._load_chart_data_into_cache_job.delay(
-            {**job_metadata, "guest_token": guest_user.guest_token}
-            if (guest_user := security_manager.get_current_guest_user_if_guest())
-            else job_metadata,
+            (
+                {**job_metadata, "guest_token": guest_user.guest_token}
+                if (guest_user := security_manager.get_current_guest_user_if_guest())
+                else job_metadata
+            ),
             form_data,
         )
         return job_metadata

@@ -38,10 +38,6 @@ from superset.utils.webdriver import WebDriverSelenium
 from tests.integration_tests.base_tests import SupersetTestCase
 from tests.integration_tests.conftest import with_feature_flags
 from tests.integration_tests.constants import ADMIN_USERNAME, ALPHA_USERNAME
-from tests.integration_tests.fixtures.birth_names_dashboard import (
-    load_birth_names_dashboard_with_slices,
-    load_birth_names_data,
-)
 from tests.integration_tests.test_app import app
 
 CHART_URL = "/api/v1/chart/"
@@ -64,7 +60,7 @@ class TestThumbnailsSeleniumLive(LiveServerTestCase):
         """
         Thumbnails: Simple get async dashboard screenshot
         """
-        with patch("superset.dashboards.api.DashboardRestApi.get") as mock_get:
+        with patch("superset.dashboards.api.DashboardRestApi.get") as mock_get:  # noqa: F841
             rv = self.client.get(DASHBOARD_URL)
             resp = json.loads(rv.data.decode("utf-8"))
             thumbnail_url = resp["result"][0]["thumbnail_url"]
