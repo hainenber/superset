@@ -35,27 +35,25 @@ downgrade = migration_module.do_downgrade
 
 
 def test_migration_upgrade():
-    with app.app_context():
-        pre_perm = PermissionView(
-            permission=Permission(name="can_view_and_drill"),
-            view_menu=db.session.query(ViewMenu).filter_by(name="Dashboard").one(),
-        )
-        db.session.add(pre_perm)
-        db.session.commit()
+    pre_perm = PermissionView(
+        permission=Permission(name="can_view_and_drill"),
+        view_menu=db.session.query(ViewMenu).filter_by(name="Dashboard").one(),
+    )
+    db.session.add(pre_perm)
+    db.session.commit()
 
-        assert _find_pvm(db.session, "Dashboard", "can_view_and_drill") is not None
+    assert _find_pvm(db.session, "Dashboard", "can_view_and_drill") is not None
 
-        upgrade(db.session)
+    upgrade(db.session)
 
-        assert _find_pvm(db.session, "Dashboard", "can_view_chart_as_table") is not None
-        assert _find_pvm(db.session, "Dashboard", "can_view_query") is not None
-        assert _find_pvm(db.session, "Dashboard", "can_view_and_drill") is None
+    assert _find_pvm(db.session, "Dashboard", "can_view_chart_as_table") is not None
+    assert _find_pvm(db.session, "Dashboard", "can_view_query") is not None
+    assert _find_pvm(db.session, "Dashboard", "can_view_and_drill") is None
 
 
 def test_migration_downgrade():
-    with app.app_context():
-        downgrade(db.session)
+    downgrade(db.session)
 
-        assert _find_pvm(db.session, "Dashboard", "can_view_chart_as_table") is None
-        assert _find_pvm(db.session, "Dashboard", "can_view_query") is None
-        assert _find_pvm(db.session, "Dashboard", "can_view_and_drill") is not None
+    assert _find_pvm(db.session, "Dashboard", "can_view_chart_as_table") is None
+    assert _find_pvm(db.session, "Dashboard", "can_view_query") is None
+    assert _find_pvm(db.session, "Dashboard", "can_view_and_drill") is not None

@@ -600,24 +600,23 @@ class TestDatabaseModel(SupersetTestCase):
 
 @pytest.fixture
 def text_column_table():
-    with app.app_context():
-        table = SqlaTable(
-            table_name="text_column_table",
-            sql=(
-                "SELECT 'foo' as foo "
-                "UNION SELECT '' "
-                "UNION SELECT NULL "
-                "UNION SELECT 'null' "
-                "UNION SELECT '\"text in double quotes\"' "
-                "UNION SELECT '''text in single quotes''' "
-                "UNION SELECT 'double quotes \" in text' "
-                "UNION SELECT 'single quotes '' in text' "
-            ),
-            database=get_example_database(),
-        )
-        TableColumn(column_name="foo", type="VARCHAR(255)", table=table)
-        SqlMetric(metric_name="count", expression="count(*)", table=table)
-        yield table
+    table = SqlaTable(
+        table_name="text_column_table",
+        sql=(
+            "SELECT 'foo' as foo "
+            "UNION SELECT '' "
+            "UNION SELECT NULL "
+            "UNION SELECT 'null' "
+            "UNION SELECT '\"text in double quotes\"' "
+            "UNION SELECT '''text in single quotes''' "
+            "UNION SELECT 'double quotes \" in text' "
+            "UNION SELECT 'single quotes '' in text' "
+        ),
+        database=get_example_database(),
+    )
+    TableColumn(column_name="foo", type="VARCHAR(255)", table=table)
+    SqlMetric(metric_name="count", expression="count(*)", table=table)
+    yield table
 
 
 def test_values_for_column_on_text_column(text_column_table):

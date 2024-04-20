@@ -89,9 +89,8 @@ INCOMPATIBLE_ADHOC_COLUMN_FIXTURE: AdhocColumn = {
 
 @pytest.fixture(autouse=True)
 def skip_by_backend():
-    with app.app_context():
-        if backend() == "hive":
-            pytest.skip("Skipping tests for Hive backend")
+    if backend() == "hive":
+        pytest.skip("Skipping tests for Hive backend")
 
 
 class BaseTestChartDataApi(SupersetTestCase):

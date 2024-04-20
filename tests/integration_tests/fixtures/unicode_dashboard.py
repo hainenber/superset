@@ -36,42 +36,38 @@ UNICODE_TBL_NAME = "unicode_test"
 
 @pytest.fixture(scope="session")
 def load_unicode_data():
-    with app.app_context():
-        with get_example_database().get_sqla_engine() as engine:
-            _get_dataframe().to_sql(
-                UNICODE_TBL_NAME,
-                engine,
-                if_exists="replace",
-                chunksize=500,
-                dtype={"phrase": String(500)},
-                index=False,
-                method="multi",
-                schema=get_example_default_schema(),
-            )
+    with get_example_database().get_sqla_engine() as engine:
+        _get_dataframe().to_sql(
+            UNICODE_TBL_NAME,
+            engine,
+            if_exists="replace",
+            chunksize=500,
+            dtype={"phrase": String(500)},
+            index=False,
+            method="multi",
+            schema=get_example_default_schema(),
+        )
 
     yield
-    with app.app_context():
-        with get_example_database().get_sqla_engine() as engine:
-            engine.execute("DROP TABLE IF EXISTS unicode_test")
+    with get_example_database().get_sqla_engine() as engine:
+        engine.execute("DROP TABLE IF EXISTS unicode_test")
 
 
 @pytest.fixture()
 def load_unicode_dashboard_with_slice(load_unicode_data):
     slice_name = "Unicode Cloud"
-    with app.app_context():
-        dash = _create_unicode_dashboard(slice_name, None)
-        yield
-        _cleanup(dash, slice_name)
+    dash = _create_unicode_dashboard(slice_name, None)
+    yield
+    _cleanup(dash, slice_name)
 
 
 @pytest.fixture()
 def load_unicode_dashboard_with_position(load_unicode_data):
     slice_name = "Unicode Cloud"
     position = "{}"
-    with app.app_context():
-        dash = _create_unicode_dashboard(slice_name, position)
-        yield
-        _cleanup(dash, slice_name)
+    dash = _create_unicode_dashboard(slice_name, position)
+    yield
+    _cleanup(dash, slice_name)
 
 
 def _get_dataframe():

@@ -98,14 +98,12 @@ def get_upload_db():
 
 @pytest.fixture(scope="function")
 def setup_csv_upload_with_context():
-    with app.app_context():
-        yield from _setup_csv_upload()
+    yield from _setup_csv_upload()
 
 
 @pytest.fixture(scope="function")
 def setup_csv_upload_with_context_schema():
-    with app.app_context():
-        yield from _setup_csv_upload(["public"])
+    yield from _setup_csv_upload(["public"])
 
 
 @only_postgresql

@@ -76,30 +76,29 @@ def create_annotation_layers():
     and a final one with ANNOTATION_COUNT children
     :return:
     """
-    with app.app_context():
-        annotation_layers = []
-        annotations = []
-        for cx in range(ANNOTATION_LAYERS_COUNT - 1):
-            annotation_layers.append(
-                _insert_annotation_layer(name=f"name{cx}", descr=f"descr{cx}")
+    annotation_layers = []
+    annotations = []
+    for cx in range(ANNOTATION_LAYERS_COUNT - 1):
+        annotation_layers.append(
+            _insert_annotation_layer(name=f"name{cx}", descr=f"descr{cx}")
+        )
+    layer_with_annotations = _insert_annotation_layer("layer_with_annotations")
+    annotation_layers.append(layer_with_annotations)
+    for cx in range(ANNOTATIONS_COUNT):
+        annotations.append(
+            _insert_annotation(
+                layer_with_annotations,
+                short_descr=f"short_descr{cx}",
+                long_descr=f"long_descr{cx}",
+                start_dttm=get_start_dttm(cx),
+                end_dttm=get_end_dttm(cx),
             )
-        layer_with_annotations = _insert_annotation_layer("layer_with_annotations")
-        annotation_layers.append(layer_with_annotations)
-        for cx in range(ANNOTATIONS_COUNT):
-            annotations.append(
-                _insert_annotation(
-                    layer_with_annotations,
-                    short_descr=f"short_descr{cx}",
-                    long_descr=f"long_descr{cx}",
-                    start_dttm=get_start_dttm(cx),
-                    end_dttm=get_end_dttm(cx),
-                )
-            )
-        yield annotation_layers
+        )
+    yield annotation_layers
 
-        # rollback changes
-        for annotation_layer in annotation_layers:
-            db.session.delete(annotation_layer)
-        for annotation in annotations:
-            db.session.delete(annotation)
-        db.session.commit()
+    # rollback changes
+    for annotation_layer in annotation_layers:
+        db.session.delete(annotation_layer)
+    for annotation in annotations:
+        db.session.delete(annotation)
+    db.session.commit()

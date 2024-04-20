@@ -1127,40 +1127,39 @@ class TestChartApi(ApiOwnersTestCaseMixin, InsertChartMixin, SupersetTestCase):
 
     @pytest.fixture()
     def load_energy_charts(self):
-        with app.app_context():
-            admin = self.get_user("admin")
-            energy_table = (
-                db.session.query(SqlaTable)
-                .filter_by(table_name="energy_usage")
-                .one_or_none()
-            )
-            energy_table_id = 1
-            if energy_table:
-                energy_table_id = energy_table.id
-            chart1 = self.insert_chart(
-                "foo_a", [admin.id], energy_table_id, description="ZY_bar"
-            )
-            chart2 = self.insert_chart(
-                "zy_foo", [admin.id], energy_table_id, description="desc1"
-            )
-            chart3 = self.insert_chart(
-                "foo_b", [admin.id], energy_table_id, description="desc1zy_"
-            )
-            chart4 = self.insert_chart(
-                "foo_c", [admin.id], energy_table_id, viz_type="viz_zy_"
-            )
-            chart5 = self.insert_chart(
-                "bar", [admin.id], energy_table_id, description="foo"
-            )
+        admin = self.get_user("admin")
+        energy_table = (
+            db.session.query(SqlaTable)
+            .filter_by(table_name="energy_usage")
+            .one_or_none()
+        )
+        energy_table_id = 1
+        if energy_table:
+            energy_table_id = energy_table.id
+        chart1 = self.insert_chart(
+            "foo_a", [admin.id], energy_table_id, description="ZY_bar"
+        )
+        chart2 = self.insert_chart(
+            "zy_foo", [admin.id], energy_table_id, description="desc1"
+        )
+        chart3 = self.insert_chart(
+            "foo_b", [admin.id], energy_table_id, description="desc1zy_"
+        )
+        chart4 = self.insert_chart(
+            "foo_c", [admin.id], energy_table_id, viz_type="viz_zy_"
+        )
+        chart5 = self.insert_chart(
+            "bar", [admin.id], energy_table_id, description="foo"
+        )
 
-            yield
-            # rollback changes
-            db.session.delete(chart1)
-            db.session.delete(chart2)
-            db.session.delete(chart3)
-            db.session.delete(chart4)
-            db.session.delete(chart5)
-            db.session.commit()
+        yield
+        # rollback changes
+        db.session.delete(chart1)
+        db.session.delete(chart2)
+        db.session.delete(chart3)
+        db.session.delete(chart4)
+        db.session.delete(chart5)
+        db.session.commit()
 
     @pytest.mark.usefixtures("load_energy_charts")
     def test_get_charts_custom_filter(self):

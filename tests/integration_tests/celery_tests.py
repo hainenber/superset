@@ -71,19 +71,17 @@ def get_query_by_id(id: int):
 def setup_sqllab():
     yield
     # clean up after all tests are done
-    # use a new app context
-    with app.app_context():
-        db.session.query(Query).delete()
-        db.session.commit()
-        for tbl in TMP_TABLES:
-            drop_table_if_exists(f"{tbl}_{CtasMethod.TABLE.lower()}", CtasMethod.TABLE)
-            drop_table_if_exists(f"{tbl}_{CtasMethod.VIEW.lower()}", CtasMethod.VIEW)
-            drop_table_if_exists(
-                f"{CTAS_SCHEMA_NAME}.{tbl}_{CtasMethod.TABLE.lower()}", CtasMethod.TABLE
-            )
-            drop_table_if_exists(
-                f"{CTAS_SCHEMA_NAME}.{tbl}_{CtasMethod.VIEW.lower()}", CtasMethod.VIEW
-            )
+    db.session.query(Query).delete()
+    db.session.commit()
+    for tbl in TMP_TABLES:
+        drop_table_if_exists(f"{tbl}_{CtasMethod.TABLE.lower()}", CtasMethod.TABLE)
+        drop_table_if_exists(f"{tbl}_{CtasMethod.VIEW.lower()}", CtasMethod.VIEW)
+        drop_table_if_exists(
+            f"{CTAS_SCHEMA_NAME}.{tbl}_{CtasMethod.TABLE.lower()}", CtasMethod.TABLE
+        )
+        drop_table_if_exists(
+            f"{CTAS_SCHEMA_NAME}.{tbl}_{CtasMethod.VIEW.lower()}", CtasMethod.VIEW
+        )
 
 
 def run_sql(

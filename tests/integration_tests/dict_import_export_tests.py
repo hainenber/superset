@@ -41,12 +41,11 @@ class TestDictImportExport(SupersetTestCase):
 
     @classmethod
     def delete_imports(cls):
-        with app.app_context():
-            # Imported data clean up
-            for table in db.session.query(SqlaTable):
-                if DBREF in table.params_dict:
-                    db.session.delete(table)
-            db.session.commit()
+        # Imported data clean up
+        for table in db.session.query(SqlaTable):
+            if DBREF in table.params_dict:
+                db.session.delete(table)
+        db.session.commit()
 
     @classmethod
     def setUpClass(cls):

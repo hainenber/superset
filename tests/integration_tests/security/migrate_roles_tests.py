@@ -37,40 +37,33 @@ logger = logging.getLogger(__name__)
 
 @contextmanager
 def create_old_role(pvm_map: PvmMigrationMapType, external_pvms):
-    with app.app_context():
-        pvms = []
-        for old_pvm, new_pvms in pvm_map.items():
-            pvms.append(
-                security_manager.add_permission_view_menu(
-                    old_pvm.permission, old_pvm.view
-                )
-            )
-        for external_pvm in external_pvms:
-            pvms.append(
-                security_manager.find_permission_view_menu(
-                    external_pvm.permission, external_pvm.view
-                )
-            )
-
-        new_role = Role(name="Dummy Role", permissions=pvms)
-        db.session.add(new_role)
-        db.session.commit()
-
-        yield new_role
-
-        new_role = (
-            db.session.query(Role).filter(Role.name == "Dummy Role").one_or_none()
+    pvms = []
+    for old_pvm, new_pvms in pvm_map.items():
+        pvms.append(
+            security_manager.add_permission_view_menu(old_pvm.permission, old_pvm.view)
         )
-        new_role.permissions = []
-        for old_pvm, new_pvms in pvm_map.items():
-            security_manager.del_permission_view_menu(old_pvm.permission, old_pvm.view)
-            for new_pvm in new_pvms:
-                security_manager.del_permission_view_menu(
-                    new_pvm.permission, new_pvm.view
-                )
+    for external_pvm in external_pvms:
+        pvms.append(
+            security_manager.find_permission_view_menu(
+                external_pvm.permission, external_pvm.view
+            )
+        )
 
-        db.session.delete(new_role)
-        db.session.commit()
+    new_role = Role(name="Dummy Role", permissions=pvms)
+    db.session.add(new_role)
+    db.session.commit()
+
+    yield new_role
+
+    new_role = db.session.query(Role).filter(Role.name == "Dummy Role").one_or_none()
+    new_role.permissions = []
+    for old_pvm, new_pvms in pvm_map.items():
+        security_manager.del_permission_view_menu(old_pvm.permission, old_pvm.view)
+        for new_pvm in new_pvms:
+            security_manager.del_permission_view_menu(new_pvm.permission, new_pvm.view)
+
+    db.session.delete(new_role)
+    db.session.commit()
 
 
 @pytest.mark.parametrize(

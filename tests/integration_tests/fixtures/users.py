@@ -24,26 +24,23 @@ from tests.integration_tests.test_app import app
 
 @pytest.fixture()
 def create_gamma_sqllab_no_data():
-    with app.app_context():
-        gamma_role = db.session.query(Role).filter(Role.name == "Gamma").one_or_none()
-        sqllab_role = (
-            db.session.query(Role).filter(Role.name == "sql_lab").one_or_none()
-        )
+    gamma_role = db.session.query(Role).filter(Role.name == "Gamma").one_or_none()
+    sqllab_role = db.session.query(Role).filter(Role.name == "sql_lab").one_or_none()
 
-        security_manager.add_user(
-            GAMMA_SQLLAB_NO_DATA_USERNAME,
-            "gamma_sqllab_no_data",
-            "gamma_sqllab_no_data",
-            "gamma_sqllab_no_data@apache.org",
-            [gamma_role, sqllab_role],
-            password="general",
-        )
+    security_manager.add_user(
+        GAMMA_SQLLAB_NO_DATA_USERNAME,
+        "gamma_sqllab_no_data",
+        "gamma_sqllab_no_data",
+        "gamma_sqllab_no_data@apache.org",
+        [gamma_role, sqllab_role],
+        password="general",
+    )
 
-        yield
-        user = (
-            db.session.query(User)
-            .filter(User.username == GAMMA_SQLLAB_NO_DATA_USERNAME)
-            .one_or_none()
-        )
-        db.session.delete(user)
-        db.session.commit()
+    yield
+    user = (
+        db.session.query(User)
+        .filter(User.username == GAMMA_SQLLAB_NO_DATA_USERNAME)
+        .one_or_none()
+    )
+    db.session.delete(user)
+    db.session.commit()

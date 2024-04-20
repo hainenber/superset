@@ -84,24 +84,22 @@ SCHEMA_ACCESS_ROLE = "schema_access_role"
 class TestRequestAccess(SupersetTestCase):
     @classmethod
     def setUpClass(cls):
-        with app.app_context():
-            security_manager.add_role("override_me")
-            security_manager.add_role(TEST_ROLE_1)
-            security_manager.add_role(TEST_ROLE_2)
-            security_manager.add_role(DB_ACCESS_ROLE)
-            security_manager.add_role(SCHEMA_ACCESS_ROLE)
-            db.session.commit()
+        security_manager.add_role("override_me")
+        security_manager.add_role(TEST_ROLE_1)
+        security_manager.add_role(TEST_ROLE_2)
+        security_manager.add_role(DB_ACCESS_ROLE)
+        security_manager.add_role(SCHEMA_ACCESS_ROLE)
+        db.session.commit()
 
     @classmethod
     def tearDownClass(cls):
-        with app.app_context():
-            override_me = security_manager.find_role("override_me")
-            db.session.delete(override_me)
-            db.session.delete(security_manager.find_role(TEST_ROLE_1))
-            db.session.delete(security_manager.find_role(TEST_ROLE_2))
-            db.session.delete(security_manager.find_role(DB_ACCESS_ROLE))
-            db.session.delete(security_manager.find_role(SCHEMA_ACCESS_ROLE))
-            db.session.commit()
+        override_me = security_manager.find_role("override_me")
+        db.session.delete(override_me)
+        db.session.delete(security_manager.find_role(TEST_ROLE_1))
+        db.session.delete(security_manager.find_role(TEST_ROLE_2))
+        db.session.delete(security_manager.find_role(DB_ACCESS_ROLE))
+        db.session.delete(security_manager.find_role(SCHEMA_ACCESS_ROLE))
+        db.session.commit()
 
     def tearDown(self):
         override_me = security_manager.find_role("override_me")
