@@ -203,8 +203,8 @@ class ImportExportMixin:
         ]
         unique.extend(
             {c.name}
-            for c in cls.__table__.columns
-            if c.unique  # type: ignore
+            for c in cls.__table__.columns  # type: ignore
+            if c.unique
         )
         return unique
 

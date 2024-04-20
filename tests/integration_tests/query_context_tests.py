@@ -16,7 +16,7 @@
 # under the License.
 import re
 import time
-from typing import Any
+from typing import Any, Optional
 from unittest.mock import Mock, patch
 
 import numpy as np
@@ -200,14 +200,29 @@ class TestQueryContext(SupersetTestCase):
         # the new cache_key should be different due to updated datasource
         self.assertNotEqual(cache_key_original, cache_key_new)
 
-    def test_query_cache_key_does_not_change_for_non_existent_or_null(self):
-        payload = get_query_context("birth_names", add_postprocessing_operations=True)
+    def test_query_cache_key_does_not_change_for_non_existent_or_null(
+        self,
+        # pylint: disable=unused-argument
+        payload: dict[str, Any] = get_query_context(
+            "birth_names", add_postprocessing_operations=True
+        ),
+    ) -> None:
+        """
+        Ensure query_cache_key does not change when granularity is missing or None
+
+        Args:
+            payload (dict): query context payload
+
+        Returns:
+            None
+
+        """
         del payload["queries"][0]["granularity"]
 
         # construct baseline query_cache_key from query_context with post processing operation
         query_context: QueryContext = ChartDataQueryContextSchema().load(payload)
         query_object: QueryObject = query_context.queries[0]
-        cache_key_original = query_context.query_cache_key(query_object)
+        cache_key_original: Optional[str] = query_context.query_cache_key(query_object)
 
         payload["queries"][0]["granularity"] = None
         query_context = ChartDataQueryContextSchema().load(payload)

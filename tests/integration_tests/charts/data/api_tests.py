@@ -121,7 +121,9 @@ class BaseTestChartDataApi(SupersetTestCase):
 
     def quote_name(self, name: str):
         if get_main_database().backend in {"presto", "hive"}:
-            with get_example_database().get_inspector_with_context() as inspector:  # E: Ne
+            with (
+                get_example_database().get_inspector_with_context() as inspector
+            ):  # E: Ne
                 return inspector.engine.dialect.identifier_preparer.quote_identifier(
                     name
                 )
@@ -1315,6 +1317,7 @@ def test_cache_default_timeout(test_client, login_as_admin, physical_query_conte
 def test_custom_cache_timeout(test_client, login_as_admin, physical_query_context):
     physical_query_context["custom_cache_timeout"] = 5678
     rv = test_client.post(CHART_DATA_URI, json=physical_query_context)
+
     assert rv.json["result"][0]["cache_timeout"] == 5678
 
 
