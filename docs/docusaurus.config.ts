@@ -238,7 +238,7 @@ const config: Config = {
     experimental_faster: {
       swcJsLoader: false,
       swcJsMinimizer: true,
-      swcHtmlMinimizer: true,
+      swcHtmlMinimizer: false,
       lightningCssMinimizer: true,
       rspackBundler: true,
       mdxCrossCompilerCache: true,
